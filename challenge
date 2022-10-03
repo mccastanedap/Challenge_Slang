@@ -1,0 +1,69 @@
+"""
+Slang Coding Challenge 2022
+October 03, 2022
+__author__ = "Melissa Castañeda "
+__email__ = "mc.castanedap@uniandes.edu.co"
+This program fetches data from a REST API at a given enpoint and consumes a list of
+activites for an arbitrary amount of users in no particular order. It then parses the JSON
+file to create a dictionary of user ids and their groups their respective sessions from the list of
+their activities if the time between activities exceeds 5 minutes.
+"""
+from heapq import heappush, heappop
+from collections import namedtuple
+import requests
+import datetime
+
+# insert all activities
+def insert_activites():
+    
+    "Part 1: Fetches some data from one of the Rest APIs"
+    #  the url from where the API is to be consumed
+    url = "https://api.slangapp.com/challenges/v1/activities"
+
+    # the authentication header
+    headers = headers
+
+     # obtain the user activites response from the API
+    user_activities = requests.get(url, headers).json()
+
+    # the python array containing all activites
+    activity_arr = user_activities['activities']
+
+    # dictionary to store the activities, dictionary to store all activites for a given user
+    activities_dict = dict()
+    user_activities_dict = dict()
+    
+    for i in range(len(activity_arr)):
+
+        
+        Activity = namedtuple("activity", "first_seen_at")
+
+        # We need to obatin the atributes of each activity
+        #First we obtain the id, user_id then, first seen at, answered at.
+        activity_id = activity_arr[i]['id']
+        user_id = activity_arr[i]['user_id']
+        start_activity_time = datetime.datetime.fromisoformat(
+            activity_arr[i]['first_seen_at'])
+        end_activity_time = datetime.datetime.fromisoformat(
+            activity_arr[i]['answered_at'])
+
+        # create a namedtuple with attributes for a activity_id.
+        activity = Activity(activity_id, user_id, start_activity_time, end_activity_time)
+
+        # store the activity in the dictionary
+        activities_dict[activities_dict]= activity
+
+        # when a user's id is not a key in the dictionary, create a new array and push the
+        # activity onto the min-heap for this user which means that the parent would be always
+        #  less or equal to the key of the son
+        if user_activities_dict.get(f"{user_id}") is None:
+            array = []
+            user_activities_dict[f"{user_id}"] = array
+            heappush(user_activities_dict[f"{user_id}"],
+                     (activity.first_seen_at, activity.id))
+
+        # if a user's id is already a key in the dictionary, push the tuple with the activity
+        # into the min-heap
+        else:
+            heappush(user_activities_dict[f"{user_id}"],
+                     (activity.first_seen_at, activity.id))
