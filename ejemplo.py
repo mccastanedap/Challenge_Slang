@@ -77,10 +77,10 @@ def insert_activites():
 
 def user_sessions():
     print(user_activities_dict)
-    session=dict()
+    session={}
     for i, v in user_activities_dict.items():
 
-        session[v].append(i)
+        session[v] =[i] if v not in session.keys() else res[v] + [i]
     print("Grouped dictionary is : " + str(dict(session)))
 
 
