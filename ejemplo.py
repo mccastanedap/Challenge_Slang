@@ -77,11 +77,11 @@ def insert_activites():
 
 def user_sessions():
     print(user_activities_dict)
-    #session=dict(list)
-   # for i, v in user_activities_dict.items():
+    session=dict()
+    for i, v in user_activities_dict.items():
 
-    #    session[v].append(i)
-    #print("Grouped dictionary is : " + str(dict(session)))
+        session[v].append(i)
+    print("Grouped dictionary is : " + str(dict(session)))
 
 
 def finalize_entry(key, session_arr):

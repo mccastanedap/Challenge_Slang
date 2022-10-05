@@ -34,8 +34,8 @@ activity_arr = user_activities['activities']
 activities_dic= dict()
 user_activities_dict = dict()
 user_sessions = dict()
-# insert all activities
 
+# insert all activities
 def insert_activites():
      
     for i in range(len(activity_arr)):
@@ -73,10 +73,8 @@ def insert_activites():
             heappush(user_activities_dict[f"{user_id}"],
                      (activity.first_seen_at, activity.id))
 
+
 #Part 2 create user sessions
-
-
-
 def user_sessions_builder():
 
     for key in user_activities_dict.keys():
