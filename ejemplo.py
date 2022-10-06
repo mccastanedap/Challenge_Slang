@@ -41,7 +41,7 @@ def insert_activites():
     for i in range(len(activity_arr)):
 
         
-        Activity = namedtuple("activity", "id user_id first_seen_at answered_at")
+        #Activity = namedtuple("activity", "id user_id first_seen_at answered_at")
 
         # We need to obatin the atributes of each activity
         #First we obtain the id, user_id then, first seen at, answered at.
@@ -53,7 +53,7 @@ def insert_activites():
             activity_arr[i]['answered_at'])
 
         # create a tuple with attributes for a activity_id.
-        activity = Activity(activity_id, user_id, start_activity_time, end_activity_time)
+        activity = list([activity_id, user_id, start_activity_time, end_activity_time])
 
         # store the activity in the dictionary
         activities_dic[f"{activity_id}"]= activity
@@ -65,13 +65,13 @@ def insert_activites():
             array = []
             user_activities_dict[f"{user_id}"] = array
             heappush(user_activities_dict[f"{user_id}"],
-                     (activity.first_seen_at, activity.id))
+                     (activity[2], activity[0]))
 
         # if a user's id is already a key in the dictionary, push the tuple with the activity
         # into the min-heap
         else:
             heappush(user_activities_dict[f"{user_id}"],
-                     (activity.first_seen_at, activity.id))
+                     (activity[2], activity[0]))
 
 #Part 2 create user sessions
 

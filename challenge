@@ -40,8 +40,6 @@ def insert_activites():
      
     for i in range(len(activity_arr)):
 
-        
-        Activity = namedtuple("activity", "id user_id first_seen_at answered_at")
 
         # We need to obatin the atributes of each activity
         #First we obtain the id, user_id then, first seen at, answered at.
@@ -53,25 +51,25 @@ def insert_activites():
             activity_arr[i]['answered_at'])
 
         # create a tuple with attributes for a activity_id.
-        activity = Activity(activity_id, user_id, start_activity_time, end_activity_time)
+        activity = list([activity_id, user_id, start_activity_time, end_activity_time])
 
         # store the activity in the dictionary
-        activities_dic[f"{activity_id}"]= activity
+        activities_dic[str(activity_id)]= activity
 
         # when a user's id is not a key in the dictionary, create a new array and push the
         # activity onto the min-heap for this user which means that the parent would be always
         #  less or equal to the key of the son
-        if user_activities_dict.get(f"{user_id}") is None:
+        if user_activities_dict.get(str(user_id)) is None:
             array = []
-            user_activities_dict[f"{user_id}"] = array
-            heappush(user_activities_dict[f"{user_id}"],
-                     (activity.first_seen_at, activity.id))
+            user_activities_dict[str(user_id)] = array
+            heappush(user_activities_dict[str(user_id)],
+                     (activity[2], activity[0]))
 
         # if a user's id is already a key in the dictionary, push the tuple with the activity
         # into the min-heap
         else:
-            heappush(user_activities_dict[f"{user_id}"],
-                     (activity.first_seen_at, activity.id))
+            heappush(user_activities_dict[str(user_id)],
+                     (activity[2], activity[0]))
 
 
 #Part 2 create user sessions
@@ -81,7 +79,7 @@ def user_sessions_builder():
 
         #We know that a session can have multiple activities so these two are arrays
         #k is the key of the user activities
-        k = user_activities_dict[f"{key}"]
+        k = user_activities_dict[str( key)]
         
         session= []
         activities = []
@@ -93,12 +91,12 @@ def user_sessions_builder():
         
         
         #Time first seen at
-        start = activities_dic[f"{first_activity[1]}"][2]
+        start = activities_dic[str(first_activity[1])][2]
         
         #Time last seen at
-        end = activities_dic[f"{first_activity[1]}"][3]
+        end = activities_dic[str(first_activity[1])][3]
         
-        print("No ha terminado" + f"{key}" )
+        print("No ha terminado" + str(  key) )
         i=0
         while i <len(k):
 
@@ -118,7 +116,7 @@ def user_sessions_builder():
                 curr_activity = heappop(k)
                 
                 #We obtain the start time of the activity
-                start_act_2 = activities_dic[f"{curr_activity[1]}"][2]
+                start_act_2 = activities_dic[str(curr_activity[1])][2]
                 #We check the time the second activity began and when the first finish
                 gap = start_act_2.timestamp() - end.timestamp()
                 
@@ -128,7 +126,7 @@ def user_sessions_builder():
                 activities.append(curr_activity[1])
                 
             if gap >= 300:
-                end = activities_dic[f'{first_activity[1]}'][3]
+                end = activities_dic[str(first_activity[1])][3]
                 #We add to the dictionary a new session
                 session_dictionary = new_session_dictionary(end, start, activities)
                 #We add to the array of sessions the session dictionary already created
@@ -139,7 +137,7 @@ def user_sessions_builder():
                 #this activity needs his own section
                 if curr_activity[1] not in activities and len(k) == 0:
                     #We take the end time of the activity
-                    end = activities_dic[f"{curr_activity[1]}"][3]
+                    end = activities_dic[str(curr_activity[1])][3]
                     #Create in the dictionary a new session
                     last = new_session_dictionary(end, start_act_2, [curr_activity[1]])
                     #add the new session to the array
@@ -154,7 +152,7 @@ def user_sessions_builder():
     return user_sessions
 
 def close_entry(key, session_arr):
-    user_sessions[f"{key}"] = session_arr
+    user_sessions[str(key)] = session_arr
 
 def new_session_dictionary(end, start, activities):
    
