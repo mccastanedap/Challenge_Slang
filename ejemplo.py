@@ -75,13 +75,13 @@ def insert_activites():
 
 #Part 2 create user sessions
 
-def user_sessions():
-    print(user_activities_dict)
-    session={}
-    for i, v in user_activities_dict.items():
+#def user_sessions():
+   # print(user_activities_dict)
+    #session={}
+    #for i, v in user_activities_dict.items():
 
-        session[v] =[i] if v not in session.keys() else res[v] + [i]
-    print("Grouped dictionary is : " + str(dict(session)))
+     #   session[v] =[i] if v not in session.keys() else res[v] + [i]
+    #print("Grouped dictionary is : " + str(dict(session)))
 
 
 def finalize_entry(key, session_arr):
