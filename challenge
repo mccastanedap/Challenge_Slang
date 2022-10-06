@@ -157,10 +157,10 @@ def close_entry(key, session_arr):
 def new_session_dictionary(end, start, activities):
    
     my_dictionary = {
-        "ended_at": f"{end}",
-        "started_at": f"{start}",
-        "activity_ids": f"{activities}",
-        "duration_seconds": f"{end.timestamp() - start.timestamp()}"
+        "ended_at": str(end),
+        "started_at": str(start),
+        "activity_ids": str(activities),
+        "duration_seconds": str(end.timestamp() - start.timestamp())
     }
     return my_dictionary
 
